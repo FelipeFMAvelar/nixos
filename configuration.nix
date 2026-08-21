@@ -14,11 +14,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages;
-
-  boot.extraModprobeConfig = ''
-    options acer_wmi predator_v4=1
-  '';
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -105,6 +101,9 @@
   services.gvfs.enable = true;
 
   services.power-profiles-daemon.enable = true;
+
+  # Cloudflare WARP daemon (warp-svc) for warp-cli.
+  services.cloudflare-warp.enable = true;
 
   systemd.services.set-power-profile = {
     description = "Set power profile to performance";
