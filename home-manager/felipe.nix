@@ -3,6 +3,22 @@
   lib,
   ...
 }:
+let
+  kvlibadwaita = pkgs.stdenvNoCC.mkDerivation {
+    pname = "kvlibadwaita";
+    version = "1f4e0bec44b13dabfa1fe4047aa8eeaccf2f3557";
+    src = pkgs.fetchFromGitHub {
+      owner = "GabePoel";
+      repo = "KvLibadwaita";
+      rev = "1f4e0bec44b13dabfa1fe4047aa8eeaccf2f3557";
+      hash = "sha256-jCXME6mpqqWd7gWReT04a//2O83VQcOaqIIXa+Frntc=";
+    };
+    installPhase = ''
+      mkdir -p $out/share/Kvantum
+      cp -r src/KvLibadwaita $out/share/Kvantum/
+    '';
+  };
+in
 {
   home.username = "felipe";
   home.homeDirectory = "/home/felipe";
@@ -78,6 +94,10 @@
     nix-direnv.enable = true;
   };
 
+  programs.codex = {
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
     settings.user = {
@@ -106,6 +126,7 @@
     papirus-icon-theme
     bitwarden-desktop
     hyprpaper
+    pavucontrol
     btop
     psmisc
     obs-studio
@@ -155,18 +176,32 @@
 
   qt = {
     enable = true;
-    platformTheme.name = "qtct";
-    style.name = "adwaita-dark";
+    platformTheme.name = "adwaita";
+    style.name = "kvantum";
+  };
+
+  qt.kvantum = {
+    enable = true;
+    themes = [ kvlibadwaita ];
+    settings.General.theme = "KvLibadwaitaDark";
   };
 
   gtk = {
     enable = true;
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
     font = {
       name = "Maple Mono Normal NF CN";
       size = 11;
     };
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      gtk-theme-name = "adw-gtk3-dark";
     };
     iconTheme = {
       name = "Papirus-Dark";
@@ -294,6 +329,7 @@
           ];
           muted = "󰝟";
         };
+        on-click = "pavucontrol";
       };
     };
     style = ''
