@@ -2,6 +2,7 @@
   pkgs,
   lib,
   llm-agents,
+  playit-nixos-module,
   ...
 }:
 let
@@ -108,7 +109,9 @@ in
   };
 
   home.packages = with pkgs; [
+    (llama-cpp.override { cudaSupport = true; })
     power-profiles-daemon
+    playit-nixos-module.packages.${pkgs.system}.playit
     llm-agents.packages.${pkgs.system}.opencode
     mcp-nixos
     wl-clipboard
@@ -118,7 +121,12 @@ in
     brave
     microsoft-edge
     vscode
-    vesktop
+    ((vesktop.override { electron_43 = electron_42; }).overrideAttrs (old: {
+      preBuild = ''
+        cp -r ${electron_42.dist} electron-dist
+        chmod -R u+w electron-dist
+      '';
+    }))
     proton-vpn
     nautilus
     prismlauncher

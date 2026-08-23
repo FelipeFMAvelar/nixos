@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -114,6 +119,19 @@
       ExecStart = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl set performance";
       RemainAfterExit = true;
     };
+  };
+
+  # Playit.gg tunneling agent.
+  services.playit = {
+    enable = true;
+    secretPath = "/etc/playit/secret.toml";
+  };
+  systemd.services.playit.serviceConfig = {
+    DynamicUser = lib.mkForce false;
+    User = "felipe";
+    Group = "users";
+    RuntimeDirectoryMode = lib.mkForce "0755";
+    UMask = lib.mkForce "002";
   };
 
   # UPower daemon (battery status for waybar and other tools).
