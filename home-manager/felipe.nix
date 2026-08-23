@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  llm-agents,
   ...
 }:
 let
@@ -108,7 +109,7 @@ in
 
   home.packages = with pkgs; [
     power-profiles-daemon
-    opencode
+    llm-agents.packages.${pkgs.system}.opencode
     mcp-nixos
     wl-clipboard
     swaynotificationcenter
@@ -141,6 +142,7 @@ in
     lmstudio
     xdg-desktop-portal-gtk
     screen
+    element-desktop
   ];
 
   programs.helix = {
@@ -268,6 +270,19 @@ in
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = "org.gnome.Nautilus.desktop";
+      "x-scheme-handler/mailto" = "brave-browser.desktop";
+      "x-scheme-handler/discord" = "vesktop.desktop";
+      "image/png" = "imv.desktop";
+    };
+    associations.added = {
+      "image/png" = "imv.desktop";
+    };
   };
 
   programs.waybar = {

@@ -8,6 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak/v0.7.0";
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
   outputs =
@@ -16,6 +17,7 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
+      llm-agents,
       ...
     }:
     let
@@ -34,6 +36,8 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.extraSpecialArgs = { inherit llm-agents; };
             home-manager.users.felipe = import ./home-manager/felipe.nix;
           }
         ];
