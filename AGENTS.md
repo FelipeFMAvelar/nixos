@@ -7,7 +7,7 @@
 - Don't add comments to code. If the code is not self-explanatory, it means the code is bad.
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+##############################################################################################################################################################################
 
 
 # Instructions for AI Coding Agents When Messing with Nix/NixOS
@@ -30,6 +30,6 @@ You are an AI assistant helping maintain a declarative NixOS / Flake repository.
 
 ## 3. Workflow & Safety Guardrails
 
-- DO NOT run `sudo nixos-rebuild switch` before asking the user if you can.
-- ALWAYS run `nix flake check` or `nixos-rebuild dry-activate` inside the shell environment to validate changes before declaring a task finished.
+- ALWAYS ask the user before running `sudo nixos-rebuild switch`
+- run `nix flake check` or `nixos-rebuild dry-activate` inside the shell environment to validate changes before declaring a task finished if the user doesn't allow to run `sudo nixos-rebuild switch`
 - When adding a tool or package, check `services.<name>.enable` first, as many services automatically add their underlying packages to the system path.
