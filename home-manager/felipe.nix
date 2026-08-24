@@ -302,12 +302,12 @@ in {
       position = "top";
       height = 30;
       modules-left = ["hyprland/workspaces"];
+      modules-center = ["clock"];
       modules-right = [
+        "tray"
         "network"
         "pulseaudio"
         "battery"
-        "clock"
-        "tray"
       ];
       clock = {
         format = "{:%I:%M %p}";
