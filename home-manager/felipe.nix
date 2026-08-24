@@ -4,8 +4,7 @@
   llm-agents,
   playit-nixos-module,
   ...
-}:
-let
+}: let
   kvlibadwaita = pkgs.stdenvNoCC.mkDerivation {
     pname = "kvlibadwaita";
     version = "1f4e0bec44b13dabfa1fe4047aa8eeaccf2f3557";
@@ -20,13 +19,12 @@ let
       cp -r src/KvLibadwaita $out/share/Kvantum/
     '';
   };
-in
-{
+in {
   home.username = "felipe";
   home.homeDirectory = "/home/felipe";
   home.stateVersion = "26.05";
 
-  home.sessionPath = [ "$HOME/.local/bin" ];
+  home.sessionPath = ["$HOME/.local/bin"];
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
@@ -52,6 +50,10 @@ in
       "globstar"
       "checkjobs"
     ];
+    shellAliases = {
+      felipao = "ssh felipe@134.65.28.106";
+      avavelar = "ssh felipe@193.123.103.104";
+    };
     initExtra = ''
       __prompt_path() {
         if [[ "$PWD" == "$HOME" ]]; then
@@ -109,7 +111,7 @@ in
   };
 
   home.packages = with pkgs; [
-    (llama-cpp.override { cudaSupport = true; })
+    (llama-cpp.override {cudaSupport = true;})
     power-profiles-daemon
     playit-nixos-module.packages.${pkgs.system}.playit
     llm-agents.packages.${pkgs.system}.opencode
@@ -121,7 +123,7 @@ in
     brave
     microsoft-edge
     vscode
-    ((vesktop.override { electron_43 = electron_42; }).overrideAttrs (old: {
+    ((vesktop.override {electron_43 = electron_42;}).overrideAttrs (old: {
       preBuild = ''
         cp -r ${electron_42.dist} electron-dist
         chmod -R u+w electron-dist
@@ -192,7 +194,7 @@ in
 
   qt.kvantum = {
     enable = true;
-    themes = [ kvlibadwaita ];
+    themes = [kvlibadwaita];
     settings.General.theme = "KvLibadwaitaDark";
   };
 
@@ -299,7 +301,7 @@ in
       layer = "top";
       position = "top";
       height = 30;
-      modules-left = [ "hyprland/workspaces" ];
+      modules-left = ["hyprland/workspaces"];
       modules-right = [
         "network"
         "pulseaudio"
@@ -796,14 +798,14 @@ in
           _args = [
             (lib.generators.mkLuaInline ''mainMod .. " + mouse:272"'')
             (lib.generators.mkLuaInline "hl.dsp.window.drag()")
-            { mouse = true; }
+            {mouse = true;}
           ];
         }
         {
           _args = [
             (lib.generators.mkLuaInline ''mainMod .. " + mouse:273"'')
             (lib.generators.mkLuaInline "hl.dsp.window.resize()")
-            { mouse = true; }
+            {mouse = true;}
           ];
         }
       ];
